@@ -13,5 +13,12 @@ CHIP FullAdder {
         carry;   // Left bit of a + b + c
 
     PARTS:
-    // Put you code here:
+    // 【全加器原理】計算 a + b + c (三個 1-bit，c 是低位進位)
+    // 作法：用兩個半加器串起來
+    // 第一步：先加 a+b，得到中間和 sum1 和中間進位 carry1
+    HalfAdder(a=a, b=b, sum=sum1, carry=carry1);
+    // 第二步：再加 sum1+c，得到最終和 sum 和進位 carry2
+    HalfAdder(a=sum1, b=c, sum=sum, carry=carry2);
+    // 第三步：只要任一次有進位，最終就要進位 (OR)
+    Or(a=carry1, b=carry2, out=carry);
 }

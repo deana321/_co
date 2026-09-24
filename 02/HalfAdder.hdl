@@ -13,5 +13,9 @@ CHIP HalfAdder {
         carry;  // Left bit of a + b
 
     PARTS:
-    // Put you code here:
+    // 【半加器原理】計算 a + b (兩個 1-bit)
+    // sum = a XOR b (相異為1：0+1=1, 1+1=0需進位)
+    // carry = a AND b (只有 1+1 才進位)
+    Xor(a=a, b=b, out=sum);     // 求和位：0+1=1, 1+1=0(進位)
+    And(a=a, b=b, out=carry);   // 進位位：只有 a=1且b=1 才為1
 }
