@@ -1,0 +1,17 @@
+// 計算 ALU 的狀態旗標：
+//   zr：in 全為 0 時為 1，否則為 0
+//   ng：in 的最高位 (in[15]) 為 1 時為 1，否則為 0
+// 註：此版 HardwareSimulator 不允許 (1) 把 OUT 接回零件輸入，
+// 也不允許 (2) 對內部連線取 sub-bus；因此包成子晶片，
+// 在子晶片內部對 IN 取 sub-bus（合法），由上層用整條 bus 餵入。
+CHIP ALUFlags {
+    IN in[16];
+    OUT zr, ng;
+
+    PARTS:
+    Or8Way(in=in[0..7], out=orLow);    // 低 8 位有任一 1 則為 1
+    Or8Way(in=in[8..15], out=orHigh);  // 高 8 位有任一 1 則為 1
+    Or(a=orLow, b=orHigh, out=notZr);  // 16 位中有任一 1 則為 1
+    Not(in=notZr, out=zr);             // 反向：全 0 時 zr=1
+    And(a=in[15], b=true, out=ng);     // 取最高位 (sign bit) 當 ng
+}

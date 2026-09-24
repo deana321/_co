@@ -63,14 +63,9 @@ CHIP ALU {
 
     // 【第四階段：no 決定是否反向輸出】若 no=1，out = !fOut
     Not16(in=fOut, out=notFOut);
-    Mux16(a=fOut, b=notFOut, sel=no, out=out);
+    Mux16(a=fOut, b=notFOut, sel=no, out=aluOut);
+    Or16(a=aluOut, b=false, out=out);   // 導線：out 不能回接當輸入，所以先放 aluOut 再送出
 
-    // 【第五階段：狀態旗標 zr, ng】
-    // zr：out 全為 0 時為 1。用兩個 Or8Way 分段檢查再 OR 起來
-    Or8Way(in=out[0..7], out=orLow);   // 低 8 位有任一 1 則為 1
-    Or8Way(in=out[8..15], out=orHigh); // 高 8 位有任一 1 則為 1
-    Or(a=orLow, b=orHigh, out=notZr);  // 16位中有任一1則為1
-    Not(in=notZr, out=zr);             // 反向：全0時 zr=1
-    // ng：二補數下最高位 out[15]=1 代表負數，直接取出
-    And(a=out[15], b=true, out=ng);    // 用 AND(true) 當作導線，把 sign bit 複製到 ng
+    // 【第五階段：狀態旗標 zr, ng】由子晶片計算（見 ALUFlags.hdl）
+    ALUFlags(in=aluOut, zr=zr, ng=ng);
 }
