@@ -15,5 +15,19 @@ CHIP RAM64 {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    // 中文解釋: 高位地址解碼。用 address[3..5](高3位) 把 load 只送到 8 個 RAM8 其中之一，
+    // l0~l7 代表第 0~7 塊 RAM8 是否要寫入。
+    DMux8Way(in=load, sel=address[3..5], a=l0, b=l1, c=l2, d=l3, e=l4, f=l5, g=l6, h=l7);
+    // 中文解釋: 8 個 RAM8 堆疊成 64 筆記憶體。低位 address[0..2] 在每塊內部選 8 筆之一，
+    // 高位已由上面決定是哪一塊，共用 in 輸入，輸出為 o0~o7。
+    RAM8(in=in, load=l0, address=address[0..2], out=o0);
+    RAM8(in=in, load=l1, address=address[0..2], out=o1);
+    RAM8(in=in, load=l2, address=address[0..2], out=o2);
+    RAM8(in=in, load=l3, address=address[0..2], out=o3);
+    RAM8(in=in, load=l4, address=address[0..2], out=o4);
+    RAM8(in=in, load=l5, address=address[0..2], out=o5);
+    RAM8(in=in, load=l6, address=address[0..2], out=o6);
+    RAM8(in=in, load=l7, address=address[0..2], out=o7);
+    // 中文解釋: 依高位 address[3..5] 從 8 塊的輸出 o0~o7 選出一塊送到 out，即讀出正確地址。
+    Mux8Way16(a=o0, b=o1, c=o2, d=o3, e=o4, f=o5, g=o6, h=o7, sel=address[3..5], out=out);
 }

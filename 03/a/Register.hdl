@@ -14,5 +14,38 @@ CHIP Register {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    // 中文解釋: 用 16 個 1-bit 的 Bit 並聯組成 16-bit 暫存器，
+    // 共用同一個 load 訊號，同時鎖存 in[0..15]，同時輸出 out[0..15]。
+    // 中文解釋: 第 0 位：記住 in[0]，輸出到 out[0]。
+    Bit(in=in[0], load=load, out=out[0]);
+    // 中文解釋: 第 1 位：記住 in[1]，輸出到 out[1]。
+    Bit(in=in[1], load=load, out=out[1]);
+    // 中文解釋: 第 2 位：記住 in[2]，輸出到 out[2]。
+    Bit(in=in[2], load=load, out=out[2]);
+    // 中文解釋: 第 3 位：記住 in[3]，輸出到 out[3]。
+    Bit(in=in[3], load=load, out=out[3]);
+    // 中文解釋: 第 4 位：記住 in[4]，輸出到 out[4]。
+    Bit(in=in[4], load=load, out=out[4]);
+    // 中文解釋: 第 5 位：記住 in[5]，輸出到 out[5]。
+    Bit(in=in[5], load=load, out=out[5]);
+    // 中文解釋: 第 6 位：記住 in[6]，輸出到 out[6]。
+    Bit(in=in[6], load=load, out=out[6]);
+    // 中文解釋: 第 7 位：記住 in[7]，輸出到 out[7]。
+    Bit(in=in[7], load=load, out=out[7]);
+    // 中文解釋: 第 8 位：記住 in[8]，輸出到 out[8]。
+    Bit(in=in[8], load=load, out=out[8]);
+    // 中文解釋: 第 9 位：記住 in[9]，輸出到 out[9]。
+    Bit(in=in[9], load=load, out=out[9]);
+    // 中文解釋: 第 10 位：記住 in[10]，輸出到 out[10]。
+    Bit(in=in[10], load=load, out=out[10]);
+    // 中文解釋: 第 11 位：記住 in[11]，輸出到 out[11]。
+    Bit(in=in[11], load=load, out=out[11]);
+    // 中文解釋: 第 12 位：記住 in[12]，輸出到 out[12]。
+    Bit(in=in[12], load=load, out=out[12]);
+    // 中文解釋: 第 13 位：記住 in[13]，輸出到 out[13]。
+    Bit(in=in[13], load=load, out=out[13]);
+    // 中文解釋: 第 14 位：記住 in[14]，輸出到 out[14]。
+    Bit(in=in[14], load=load, out=out[14]);
+    // 中文解釋: 第 15 位：記住 in[15]，輸出到 out[15]。
+    Bit(in=in[15], load=load, out=out[15]);
 }

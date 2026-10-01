@@ -14,5 +14,9 @@ CHIP Bit {
     OUT out;
 
     PARTS:
-    // Put your code here:
+    // 中文解釋: 用 Mux 選擇要記住的值。若 load=0 選舊值 out(保持不變)，
+    // 若 load=1 選新輸入 in，輸出到 dIn 準備寫入 DFF。
+    Mux(a=out, b=in, sel=load, out=dIn);
+    // 中文解釋: DFF 在每個時脈記住 dIn，下個時間點從 out 輸出，即實現 1-bit 記憶。
+    DFF(in=dIn, out=out);
 }

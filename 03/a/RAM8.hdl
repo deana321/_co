@@ -15,5 +15,20 @@ CHIP RAM8 {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    // 中文解釋: 地址解碼。用 address[3位] 把 load 訊號只送到 8 個暫存器其中之一，
+    // l0~l7 代表第 0~7 號暫存器是否要寫入。
+    DMux8Way(in=load, sel=address, a=l0, b=l1, c=l2, d=l3, e=l4, f=l5, g=l6, h=l7);
+    // 中文解釋: 8 個 16-bit Register，共用同一個 in 輸入，
+    // 但各自的 load 由上面解碼決定，只有被選中的才會在下個時脈更新，輸出為 o0~o7。
+    Register(in=in, load=l0, out=o0);
+    Register(in=in, load=l1, out=o1);
+    Register(in=in, load=l2, out=o2);
+    Register(in=in, load=l3, out=o3);
+    Register(in=in, load=l4, out=o4);
+    Register(in=in, load=l5, out=o5);
+    Register(in=in, load=l6, out=o6);
+    Register(in=in, load=l7, out=o7);
+    // 中文解釋: 讀取多工器。依同一個 address 從 o0~o7 選出一個輸出到 out，
+    // 即讀出指定地址的暫存器內容。
+    Mux8Way16(a=o0, b=o1, c=o2, d=o3, e=o4, f=o5, g=o6, h=o7, sel=address, out=out);
 }

@@ -16,5 +16,16 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    // 中文解釋: 先算好 out+1，incOut 是「若要遞增」時的候選值。
+    Inc16(in=out, out=incOut);
+    // 中文解釋: 第一層選擇：若 inc=1 選 incOut(加1後)，否則保持原 out。
+    Mux16(a=out, b=incOut, sel=inc, out=muxIncOut);
+    // 中文解釋: 第二層選擇：若 load=1 選外部輸入 in(跳躍/載入)，否則用上一層結果。
+    Mux16(a=muxIncOut, b=in, sel=load, out=muxLoadOut);
+    // 中文解釋: 第三層選擇(最高優先)：若 reset=1 強制選 0(全部位 false)，
+    // 否則用上一層結果。實現 reset>load>inc 的優先順序。
+    Mux16(a=muxLoadOut, b[0..15]=false, sel=reset, out=regIn);
+    // 中文解釋: 用 Register 記住 regIn，load 恆為 true 表示每個時脈都更新，
+    // 輸出即為程式計數器 out，並回授給上面的 Inc16 與 Mux 作為下次計算依據。
+    Register(in=regIn, load=true, out=out);
 }
